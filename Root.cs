@@ -85,6 +85,20 @@ public record Root : Property {
         return (mesh, id);
     }
 
+    public (Node Mesh, int Id) CreateNode(string name, int parent = -1) {
+        Nodes ??= new List<Node>();
+        var id = Nodes.Count;
+        var node = new Node {
+            Name = name,
+        };
+        Nodes.Add(node);
+        if (parent > -1) {
+            Nodes[parent].Children ??= new List<int>();
+            Nodes[parent].Children!.Add(id);
+        }
+        return (node, id);
+    }
+
     public (Accessor Accessor, int Id) CreateAccessor<T>(T[] array, Stream buffer, BufferViewTarget? target, AccessorType type, AccessorComponentType componentType, int? stride = null) where T : struct => CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(array.AsSpan()), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, array.Length, 0, type, componentType);
 
     public (Accessor Accessor, int Id) CreateAccessor<T>(
@@ -101,6 +115,16 @@ public record Root : Property {
         }
 
         return CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(tmp), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, array.Length, 0, type, componentType);
+    }
+    
+    public (Accessor Accessor, int Id) CreateAccessor<T>(
+        Span<T> array,
+        Stream buffer,
+        BufferViewTarget? target,
+        AccessorType type,
+        AccessorComponentType componentType,
+        int? stride = null) where T : struct {
+        return CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(array), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, array.Length, 0, type, componentType);
     }
 
     public (Accessor Accessor, int Id) CreateAccessor(int bufferView, int count, int offset, AccessorType type, AccessorComponentType componentType) {
