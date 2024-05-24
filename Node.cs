@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace GLTF.Scaffold;
 
@@ -56,10 +55,10 @@ public record Node : ChildOfRootProperty, INodeCreator {
 
     public (Node Node, int Id) CreateNode(Root root) {
         var node = new Node();
-        root.Nodes ??= new List<Node>();
+        root.Nodes ??= [];
         var id = root.Nodes.Count;
         root.Nodes.Add(node);
-        Children ??= new List<int>();
+        Children ??= [];
         Children.Add(id);
         return (node, id);
     }

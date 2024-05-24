@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace GLTF.Scaffold;
 
@@ -22,5 +21,5 @@ public record Skin : ChildOfRootProperty {
 
     /// <summary>Indices of skeleton nodes, used as joints in this skin.</summary>
     [JsonPropertyName("joints")]
-    public List<int> Joints { get; set; } = new();
+    public List<int> Joints { get; set; } = [];
 }

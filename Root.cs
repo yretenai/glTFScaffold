@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
@@ -78,7 +75,7 @@ public record Root : Property {
     public List<Texture>? Textures { get; set; }
 
     public (Mesh Mesh, int Id) CreateMesh() {
-        Meshes ??= new List<Mesh>();
+        Meshes ??= [];
         var id = Meshes.Count;
         var mesh = new Mesh();
         Meshes.Add(mesh);
@@ -86,14 +83,14 @@ public record Root : Property {
     }
 
     public (Node Mesh, int Id) CreateNode(string name, int parent = -1) {
-        Nodes ??= new List<Node>();
+        Nodes ??= [];
         var id = Nodes.Count;
         var node = new Node {
             Name = name,
         };
         Nodes.Add(node);
         if (parent > -1) {
-            Nodes[parent].Children ??= new List<int>();
+            Nodes[parent].Children ??= [];
             Nodes[parent].Children!.Add(id);
         }
         return (node, id);
@@ -116,7 +113,7 @@ public record Root : Property {
 
         return CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(tmp), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, array.Length, 0, type, componentType);
     }
-    
+
     public (Accessor Accessor, int Id) CreateAccessor<T>(
         Span<T> array,
         Stream buffer,
@@ -128,7 +125,7 @@ public record Root : Property {
     }
 
     public (Accessor Accessor, int Id) CreateAccessor(int bufferView, int count, int offset, AccessorType type, AccessorComponentType componentType) {
-        Accessors ??= new List<Accessor>();
+        Accessors ??= [];
         var id = Accessors.Count;
         var accessor = new Accessor {
             BufferView = bufferView,
@@ -142,7 +139,7 @@ public record Root : Property {
     }
 
     public (BufferView View, int Id) CreateBufferView(Span<byte> data, Stream buffer, int? stride, BufferViewTarget? target) {
-        BufferViews ??= new List<BufferView>();
+        BufferViews ??= [];
         var id = BufferViews.Count;
 
         var offset = (int) buffer.Length;
@@ -167,7 +164,7 @@ public record Root : Property {
     }
 
     public (Texture Texture, int Id) CreateTexture(string path, WrapMode wrapX, WrapMode wrapY, MagnificationFilter? mag, MinificationFilter? min) {
-        Textures ??= new List<Texture>();
+        Textures ??= [];
         var id = Textures.Count;
         var texture = new Texture { Source = CreateImage(path).Id, Sampler = CreateSampler(mag, min, wrapX, wrapY).Id };
         Textures.Add(texture);
@@ -175,7 +172,7 @@ public record Root : Property {
     }
 
     private (Sampler Sampler, int Id) CreateSampler(MagnificationFilter? mag, MinificationFilter? min, WrapMode wrapU, WrapMode wrapV) {
-        Samplers ??= new List<Sampler>();
+        Samplers ??= [];
         var sampler = new Sampler {
             MinificationFilter = min, MagnificationFilter = mag, WrapS = wrapU, WrapT = wrapV,
         };
@@ -190,7 +187,7 @@ public record Root : Property {
     }
 
     private (Image Source, int Id) CreateImage(string path) {
-        Images ??= new List<Image>();
+        Images ??= [];
         var id = Images.Count;
         var image = new Image { Uri = path };
         Images.Add(image);
@@ -198,7 +195,7 @@ public record Root : Property {
     }
 
     public (Material Material, int Id) CreateMaterial() {
-        Materials ??= new List<Material>();
+        Materials ??= [];
         var id = Materials.Count;
         var material = new Material();
         Materials.Add(material);
@@ -206,7 +203,7 @@ public record Root : Property {
     }
 
     public (Skin Skin, int Id) CreateSkin() {
-        Skins ??= new List<Skin>();
+        Skins ??= [];
         var id = Skins.Count;
         var skin = new Skin();
         Skins.Add(skin);

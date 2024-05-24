@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace GLTF.Scaffold;
 
@@ -7,11 +6,11 @@ namespace GLTF.Scaffold;
 public record Scene : ChildOfRootProperty, INodeCreator {
     /// <summary>The indices of each root node.</summary>
     [JsonPropertyName("nodes")]
-    public List<int> Nodes { get; set; } = new();
+    public List<int> Nodes { get; set; } = [];
 
     public (Node Node, int Id) CreateNode(Root root) {
         var node = new Node();
-        root.Nodes ??= new List<Node>();
+        root.Nodes ??= [];
         var id = root.Nodes.Count;
         root.Nodes.Add(node);
         Nodes.Add(id);
