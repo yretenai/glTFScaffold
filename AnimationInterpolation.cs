@@ -4,7 +4,7 @@ namespace GLTF.Scaffold;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum AnimationInterpolation {
-    LINEAR,
-    STEP,
-    CUBICSPLINE,
+	LINEAR,
+	STEP,
+	CUBICSPLINE,
 }

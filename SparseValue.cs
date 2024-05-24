@@ -9,14 +9,14 @@ namespace GLTF.Scaffold;
 ///     accessor.
 /// </summary>
 public record SparseValue : Property {
-    /// <summary>
-    ///     The index of the bufferView with sparse values. The referenced buffer view <b>MUST NOT</b> have its `target`
-    ///     or `byteStride` properties defined.
-    /// </summary>
-    [JsonPropertyName("bufferView")]
-    public int BufferView { get; set; }
+	/// <summary>
+	///     The index of the bufferView with sparse values. The referenced buffer view <b>MUST NOT</b> have its `target`
+	///     or `byteStride` properties defined.
+	/// </summary>
+	[JsonPropertyName("bufferView")]
+	public int BufferView { get; set; }
 
-    /// <summary>The offset relative to the start of the bufferView in bytes.</summary>
-    [JsonPropertyName("byteOffset")]
-    public int ByteOffset { get; set; } = 0;
+	/// <summary>The offset relative to the start of the bufferView in bytes.</summary>
+	[JsonPropertyName("byteOffset")]
+	public int ByteOffset { get; set; } = 0;
 }

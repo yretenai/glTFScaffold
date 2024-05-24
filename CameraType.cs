@@ -4,6 +4,6 @@ namespace GLTF.Scaffold;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum CameraType {
-    perspective,
-    orthographic,
+	perspective,
+	orthographic,
 }

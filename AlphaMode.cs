@@ -4,7 +4,7 @@ namespace GLTF.Scaffold;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum AlphaMode {
-    OPAQUE,
-    MASK,
-    BLEND,
+	OPAQUE,
+	MASK,
+	BLEND,
 }
