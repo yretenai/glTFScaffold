@@ -1,4 +1,4 @@
-﻿namespace GLTF.Scaffold;
+namespace GLTF.Scaffold;
 
 public interface INodeCreator {
     // ReSharper disable once UnusedMemberInSuper.Global

@@ -1,4 +1,4 @@
-﻿namespace GLTF.Scaffold;
+namespace GLTF.Scaffold;
 
 public enum WrapMode {
     Repeat = 10497,
