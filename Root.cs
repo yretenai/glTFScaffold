@@ -60,11 +60,11 @@ public record Root : Property {
 
 	/// <summary>The index of the default scene. This property <b>MUST NOT</b> be defined, when `scenes` is undefined.</summary>
 	[JsonPropertyName("scene")]
-	public int? Scene { get; set; }
+	public int Scene { get; set; } = 0;
 
 	/// <summary>An array of scenes.</summary>
 	[JsonPropertyName("scenes")]
-	public List<Scene>? Scenes { get; set; }
+	public List<Scene> Scenes { get; set; } = [new()];
 
 	/// <summary>An array of skins. A skin is defined by joints and matrices.</summary>
 	[JsonPropertyName("skins")]
@@ -114,7 +114,7 @@ public record Root : Property {
 		return (accessor, id);
 	}
 
-	public (BufferView View, int Id) CreateBufferView(Span<byte> data, Stream buffer, int? stride, BufferViewTarget? target) {
+	public (BufferView View, int Id) CreateBufferView(ReadOnlySpan<byte> data, Stream buffer, int? stride, BufferViewTarget? target) {
 		BufferViews ??= [];
 		var id = BufferViews.Count;
 
@@ -150,7 +150,7 @@ public record Root : Property {
 		return (texture, id);
 	}
 
-	private (Sampler Sampler, int Id) CreateSampler(MagnificationFilter? mag, MinificationFilter? min, WrapMode wrapU, WrapMode wrapV) {
+	public (Sampler Sampler, int Id) CreateSampler(MagnificationFilter? mag, MinificationFilter? min, WrapMode wrapU, WrapMode wrapV) {
 		Samplers ??= [];
 		var sampler = new Sampler {
 			MinificationFilter = min,
@@ -196,11 +196,7 @@ public record Root : Property {
 
 	public (Node Node, int Id) CreateNode(int? sceneId = null) {
 		sceneId ??= Scene;
-		if (Scenes != null && sceneId.HasValue) {
-			var scene = Scenes[sceneId.Value];
-			return scene.CreateNode(this);
-		}
-
-		throw new InvalidOperationException("Needs scene!");
+		var scene = Scenes[sceneId.Value];
+		return scene.CreateNode(this);
 	}
 }

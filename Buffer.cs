@@ -13,5 +13,5 @@ public record Buffer : ChildOfRootProperty {
 
 	/// <summary>The length of the buffer in bytes.</summary>
 	[JsonPropertyName("byteLength")]
-	public int ByteLength { get; set; }
+	public long ByteLength { get; set; }
 }
