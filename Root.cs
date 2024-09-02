@@ -82,7 +82,14 @@ public record Root : Property {
 		return (mesh, id);
 	}
 
-	public (Accessor Accessor, int Id) CreateAccessor<T>(T[] array, Stream buffer, BufferViewTarget? target, AccessorType type, AccessorComponentType componentType, int? stride = null) where T : struct => CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(array.AsSpan()), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, array.Length, 0, type, componentType);
+	public (Accessor Accessor, int Id) CreateAccessor<T>(
+		T[] array,
+		Stream buffer,
+		BufferViewTarget? target,
+		AccessorType type,
+		AccessorComponentType componentType,
+		int? stride = null,
+		int? count = null) where T : struct => CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(array.AsSpan()), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, count ?? array.Length, 0, type, componentType);
 
 	public (Accessor Accessor, int Id) CreateAccessor<T>(
 		T[][] array,
@@ -91,13 +98,14 @@ public record Root : Property {
 		BufferViewTarget? target,
 		AccessorType type,
 		AccessorComponentType componentType,
-		int? stride = null) where T : struct {
+		int? stride = null,
+		int? count = null) where T : struct {
 		var tmp = new Span<T>(new T[size * array.Length]);
 		for (var i = 0; i < array.Length; ++i) {
 			array[i].AsSpan().CopyTo(tmp[(i * size)..]);
 		}
 
-		return CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(tmp), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, array.Length, 0, type, componentType);
+		return CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(tmp), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, count ?? array.Length, 0, type, componentType);
 	}
 
 	public (Accessor Accessor, int Id) CreateAccessor(int bufferView, int count, int offset, AccessorType type, AccessorComponentType componentType) {
