@@ -207,4 +207,12 @@ public record Root : Property {
 		var scene = Scenes[sceneId.Value];
 		return scene.CreateNode(this);
 	}
+
+	public (Animation Animation, int Id) CreateAnimation() {
+		Animations ??= [];
+		var id = Animations.Count;
+		var animation = new Animation();
+		Animations.Add(animation);
+		return (animation, id);
+	}
 }
