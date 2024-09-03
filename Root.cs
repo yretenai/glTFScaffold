@@ -83,13 +83,13 @@ public record Root : Property {
 	}
 
 	public (Accessor Accessor, int Id) CreateAccessor<T>(
-		T[] array,
+		Span<T> array,
 		Stream buffer,
 		BufferViewTarget? target,
 		AccessorType type,
 		AccessorComponentType componentType,
 		int? stride = null,
-		int? count = null) where T : struct => CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(array.AsSpan()), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, count ?? array.Length, 0, type, componentType);
+		int? count = null) where T : struct => CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(array), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, count ?? array.Length, 0, type, componentType);
 
 	public (Accessor Accessor, int Id) CreateAccessor<T>(
 		T[][] array,
