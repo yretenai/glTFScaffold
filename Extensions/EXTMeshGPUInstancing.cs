@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace GLTF.Scaffold;
+namespace GLTF.Scaffold.Extensions;
 
 public record EXTMeshGPUInstancing : Property {
 	public const string EXT_NAME = "EXT_mesh_gpu_instancing";

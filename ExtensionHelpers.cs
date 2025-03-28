@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace GLTF.Scaffold;
 
-public static class Extensions {
+public static class ExtensionHelpers {
 	public static List<double> ToGLTF(this Vector2 vector) {
 		return [vector.X, vector.Y];
 	}

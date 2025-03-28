@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace GLTF.Scaffold;
+namespace GLTF.Scaffold.Extensions;
 
 public record CHRONOVOREMaterialAttributes : Property {
 	public const string EXT_NAME = "CHRONOVORE_material_attributes";

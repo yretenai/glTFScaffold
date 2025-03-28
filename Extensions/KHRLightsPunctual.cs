@@ -1,4 +1,4 @@
-namespace GLTF.Scaffold;
+namespace GLTF.Scaffold.Extensions;
 
 public record KHRLightsPunctual {
 	public const string EXT_NAME = "KHR_lights_punctual";
