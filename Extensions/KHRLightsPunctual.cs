@@ -5,10 +5,12 @@ public record KHRLightsPunctual {
 	public List<KHRLight>? Lights { get; set; }
 	public int? Light { get; set; }
 
-	public (KHRLight Light, int Id) CreateLight() {
+	public (KHRLight Light, int Id) CreateLight(string name) {
 		Lights ??= [];
 		var id = Lights.Count;
-		var light = new KHRLight();
+		var light = new KHRLight {
+			Name = name,
+		};
 		Lights.Add(light);
 		return (light, id);
 	}

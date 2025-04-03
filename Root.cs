@@ -64,7 +64,11 @@ public record Root : Property {
 
 	/// <summary>An array of scenes.</summary>
 	[JsonPropertyName("scenes")]
-	public List<Scene> Scenes { get; set; } = [new()];
+	public List<Scene> Scenes { get; set; } = [
+		new() {
+			Name = "Scene",
+		},
+	];
 
 	/// <summary>An array of skins. A skin is defined by joints and matrices.</summary>
 	[JsonPropertyName("skins")]
@@ -74,10 +78,12 @@ public record Root : Property {
 	[JsonPropertyName("textures")]
 	public List<Texture>? Textures { get; set; }
 
-	public (Mesh Mesh, int Id) CreateMesh() {
+	public (Mesh Mesh, int Id) CreateMesh(string name) {
 		Meshes ??= [];
 		var id = Meshes.Count;
-		var mesh = new Mesh();
+		var mesh = new Mesh {
+			Name = name,
+		};
 		Meshes.Add(mesh);
 		return (mesh, id);
 	}
@@ -112,6 +118,7 @@ public record Root : Property {
 		Accessors ??= [];
 		var id = Accessors.Count;
 		var accessor = new Accessor {
+			Name = null!,
 			BufferView = bufferView,
 			ByteOffset = offset,
 			Count = count,
@@ -136,6 +143,7 @@ public record Root : Property {
 		}
 
 		var bufferView = new BufferView {
+			Name = null!,
 			ByteLength = data.Length,
 			ByteOffset = offset,
 			Buffer = 0,
@@ -147,10 +155,11 @@ public record Root : Property {
 		return (bufferView, id);
 	}
 
-	public (Texture Texture, int Id) CreateTexture(string path, WrapMode wrapX, WrapMode wrapY, MagnificationFilter? mag, MinificationFilter? min) {
+	public (Texture Texture, int Id) CreateTexture(string name, string path, WrapMode wrapX, WrapMode wrapY, MagnificationFilter? mag, MinificationFilter? min) {
 		Textures ??= [];
 		var id = Textures.Count;
 		var texture = new Texture {
+			Name = name,
 			Source = CreateImage(path).Id,
 			Sampler = CreateSampler(mag, min, wrapX, wrapY).Id,
 		};
@@ -161,6 +170,7 @@ public record Root : Property {
 	public (Sampler Sampler, int Id) CreateSampler(MagnificationFilter? mag, MinificationFilter? min, WrapMode wrapU, WrapMode wrapV) {
 		Samplers ??= [];
 		var sampler = new Sampler {
+			Name = null!,
 			MinificationFilter = min,
 			MagnificationFilter = mag,
 			WrapS = wrapU,
@@ -180,38 +190,45 @@ public record Root : Property {
 		Images ??= [];
 		var id = Images.Count;
 		var image = new Image {
+			Name = Path.GetFileNameWithoutExtension(path),
 			Uri = path,
 		};
 		Images.Add(image);
 		return (image, id);
 	}
 
-	public (Material Material, int Id) CreateMaterial() {
+	public (Material Material, int Id) CreateMaterial(string name) {
 		Materials ??= [];
 		var id = Materials.Count;
-		var material = new Material();
+		var material = new Material {
+			Name = name,
+		};
 		Materials.Add(material);
 		return (material, id);
 	}
 
-	public (Skin Skin, int Id) CreateSkin() {
+	public (Skin Skin, int Id) CreateSkin(string name) {
 		Skins ??= [];
 		var id = Skins.Count;
-		var skin = new Skin();
+		var skin = new Skin {
+			Name = name,
+		};
 		Skins.Add(skin);
 		return (skin, id);
 	}
 
-	public (Node Node, int Id) CreateNode(int? sceneId = null) {
+	public (Node Node, int Id) CreateNode(string name, int? sceneId = null) {
 		sceneId ??= Scene;
 		var scene = Scenes[sceneId.Value];
-		return scene.CreateNode(this);
+		return scene.CreateNode(this, name);
 	}
 
-	public (Animation Animation, int Id) CreateAnimation() {
+	public (Animation Animation, int Id) CreateAnimation(string name) {
 		Animations ??= [];
 		var id = Animations.Count;
-		var animation = new Animation();
+		var animation = new Animation {
+			Name = name,
+		};
 		Animations.Add(animation);
 		return (animation, id);
 	}

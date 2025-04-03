@@ -56,8 +56,10 @@ public record Node : ChildOfRootProperty, INodeCreator {
 	[JsonIgnore] public Node? Parent { get; set; }
 	[JsonIgnore] public int Id { get; set; }
 
-	public (Node Node, int Id) CreateNode(Root root) {
-		var node = new Node();
+	public (Node Node, int Id) CreateNode(Root root, string name) {
+		var node = new Node {
+			Name = name,
+		};
 		root.Nodes ??= [];
 		var id = root.Nodes.Count;
 		root.Nodes.Add(node);

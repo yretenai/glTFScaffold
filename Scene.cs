@@ -8,8 +8,10 @@ public record Scene : ChildOfRootProperty, INodeCreator {
 	[JsonPropertyName("nodes")]
 	public List<int> Nodes { get; set; } = [];
 
-	public (Node Node, int Id) CreateNode(Root root) {
-		var node = new Node();
+	public (Node Node, int Id) CreateNode(Root root, string name) {
+		var node = new Node {
+			Name = name,
+		};
 		root.Nodes ??= [];
 		var id = root.Nodes.Count;
 		root.Nodes.Add(node);

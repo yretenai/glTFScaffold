@@ -8,5 +8,5 @@ public record ChildOfRootProperty : Property {
 	///     have the same name, or two accessors could even have the same name.
 	/// </summary>
 	[JsonPropertyName("name")]
-	public string? Name { get; set; }
+	public required string? Name { get; init; }
 }
