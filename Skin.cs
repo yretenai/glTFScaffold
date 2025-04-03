@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>Joints and matrices defining a skin.</summary>
-public record Skin : ChildOfRootProperty {
+public class Skin : ChildOfRootProperty {
 	/// <summary>
 	///     The index of the accessor containing the floating-point 4x4 inverse-bind matrices. Its `accessor.count`
 	///     property <b>MUST</b> be greater than or equal to the number of elements of the `joints` array. When undefined, each

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>A view into a buffer generally representing a subset of the buffer.</summary>
-public record BufferView : ChildOfRootProperty {
+public class BufferView : ChildOfRootProperty {
 	/// <summary>The index of the buffer.</summary>
 	[JsonPropertyName("buffer")]
 	public int Buffer { get; set; }

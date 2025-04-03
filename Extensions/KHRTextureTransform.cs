@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace GLTF.Scaffold.Extensions;
 
-public record KHRTextureTransform : Property {
+public class KHRTextureTransform : Property {
 	public const string EXT_NAME = "KHR_texture_transform";
 
 	[JsonPropertyName("offset")]

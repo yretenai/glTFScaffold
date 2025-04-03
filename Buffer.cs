@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>A buffer points to binary geometry, animation, or skins.</summary>
-public record Buffer : ChildOfRootProperty {
+public class Buffer : ChildOfRootProperty {
 	/// <summary>
 	///     The URI (or IRI) of the buffer. Relative paths are relative to the current glTF asset. Instead of referencing
 	///     an external file, this field <b>MAY</b> contain a `data:`-URI.

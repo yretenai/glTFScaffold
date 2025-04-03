@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>Sparse storage of accessor values that deviate from their initialization value.</summary>
-public record Sparse : Property {
+public class Sparse : Property {
 	/// <summary>Number of deviating accessor values stored in the sparse array.</summary>
 	[JsonPropertyName("count")]
 	public int Count { get; set; }

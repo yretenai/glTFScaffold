@@ -6,7 +6,7 @@ namespace GLTF.Scaffold;
 ///     An object pointing to a buffer view containing the indices of deviating accessor values. The number of indices
 ///     is equal to `accessor.sparse.count`. Indices <b>MUST</b> strictly increase.
 /// </summary>
-public record SparseIndex : Property {
+public class SparseIndex : Property {
 	/// <summary>
 	///     The index of the buffer view with sparse indices. The referenced buffer view <b>MUST NOT</b> have its `target`
 	///     or `byteStride` properties defined. The buffer view and the optional `byteOffset` <b>MUST</b> be aligned to the

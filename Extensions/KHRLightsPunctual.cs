@@ -1,6 +1,6 @@
 namespace GLTF.Scaffold.Extensions;
 
-public record KHRLightsPunctual {
+public class KHRLightsPunctual {
 	public const string EXT_NAME = "KHR_lights_punctual";
 	public List<KHRLight>? Lights { get; set; }
 	public int? Light { get; set; }

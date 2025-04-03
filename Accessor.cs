@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>A typed view into a buffer view that contains raw binary data.</summary>
-public record Accessor : ChildOfRootProperty {
+public class Accessor : ChildOfRootProperty {
 	/// <summary>
 	///     The index of the buffer view. When undefined, the accessor <b>MUST</b> be initialized with zeros; `sparse`
 	///     property or extensions <b>MAY</b> override zeros with actual values.

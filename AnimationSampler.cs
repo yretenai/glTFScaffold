@@ -6,7 +6,7 @@ namespace GLTF.Scaffold;
 ///     An animation sampler combines timestamps with a sequence of output values and defines an interpolation
 ///     algorithm.
 /// </summary>
-public record AnimationSampler : Property {
+public class AnimationSampler : Property {
 	/// <summary>
 	///     The index of an accessor containing keyframe timestamps. The accessor <b>MUST</b> be of scalar type with
 	///     floating-point components. The values represent time in seconds with `time[0] &gt;= 0.0`, and strictly increasing

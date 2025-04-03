@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace GLTF.Scaffold;
 
-public record Property {
+public class Property {
 	/// <summary>JSON object with extension-specific objects.</summary>
 	[JsonPropertyName("extensions")]
 	public Dictionary<string, JsonValue>? Extensions { get; set; }

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>An orthographic camera containing properties to create an orthographic projection matrix.</summary>
-public record OrthographicCamera : Property {
+public class OrthographicCamera : Property {
 	/// <summary>
 	///     The floating-point horizontal magnification of the view. This value <b>MUST NOT</b> be equal to zero. This
 	///     value <b>SHOULD NOT</b> be negative.

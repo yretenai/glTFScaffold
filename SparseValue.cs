@@ -8,7 +8,7 @@ namespace GLTF.Scaffold;
 ///     accessor. The elements are tightly packed. Data <b>MUST</b> be aligned following the same rules as the base
 ///     accessor.
 /// </summary>
-public record SparseValue : Property {
+public class SparseValue : Property {
 	/// <summary>
 	///     The index of the bufferView with sparse values. The referenced buffer view <b>MUST NOT</b> have its `target`
 	///     or `byteStride` properties defined.

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>The root object for a glTF asset.</summary>
-public record Root : Property {
+public class Root : Property {
 	/// <summary>Names of glTF extensions used in this asset.</summary>
 	[JsonPropertyName("extensionsUsed")]
 	public HashSet<string>? ExtensionsUsed { get; set; }

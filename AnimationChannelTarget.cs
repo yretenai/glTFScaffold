@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>The descriptor of the animated property.</summary>
-public record AnimationChannelTarget : Property {
+public class AnimationChannelTarget : Property {
 	/// <summary>The index of the node to animate. When undefined, the animated object <b>MAY</b> be defined by an extension.</summary>
 	[JsonPropertyName("node")]
 	public int? Node { get; set; }

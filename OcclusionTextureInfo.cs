@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace GLTF.Scaffold;
 
-public record OcclusionTextureInfo : TextureInfo {
+public class OcclusionTextureInfo : TextureInfo {
 	/// <summary>
 	///     A scalar parameter controlling the amount of occlusion applied. A value of `0.0` means no occlusion. A value
 	///     of `1.0` means full occlusion. This value affects the final occlusion value as:

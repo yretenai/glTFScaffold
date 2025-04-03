@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>Reference to a texture.</summary>
-public record TextureInfo : Property {
+public class TextureInfo : Property {
 	/// <summary>The index of the texture.</summary>
 	[JsonPropertyName("index")]
 	public int Index { get; set; }

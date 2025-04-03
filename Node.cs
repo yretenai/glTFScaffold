@@ -10,7 +10,7 @@ namespace GLTF.Scaffold;
 ///     rotation, and then the translation. If none are provided, the transform is the identity. When a node is targeted
 ///     for animation (referenced by an animation.channel.target), `matrix` <b>MUST NOT</b> be present.
 /// </summary>
-public record Node : ChildOfRootProperty, INodeCreator {
+public class Node : ChildOfRootProperty, INodeCreator {
 	/// <summary>The index of the camera referenced by this node.</summary>
 	[JsonPropertyName("camera")]
 	public int? Camera { get; set; }

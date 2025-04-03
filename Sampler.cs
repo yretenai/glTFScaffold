@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>Texture sampler properties for filtering and wrapping modes.</summary>
-public record Sampler : ChildOfRootProperty {
+public class Sampler : ChildOfRootProperty {
 	/// <summary>Magnification filter.</summary>
 	[JsonPropertyName("magFilter")]
 	public MagnificationFilter? MagnificationFilter { get; set; }

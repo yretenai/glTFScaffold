@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>Geometry to be rendered with the given material.</summary>
-public record Primitive : Property {
+public class Primitive : Property {
 	/// <summary>
 	///     A plain JSON object, where each key corresponds to a mesh attribute semantic and each value is the index of
 	///     the accessor containing attribute's data.

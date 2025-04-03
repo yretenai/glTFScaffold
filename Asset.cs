@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>Metadata about the glTF asset.</summary>
-public record Asset : Property {
+public class Asset : Property {
 	/// <summary>A copyright message suitable for display to credit the content creator.</summary>
 	[JsonPropertyName("copyright")]
 	public string? Copyright { get; set; }

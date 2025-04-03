@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>The material appearance of a primitive.</summary>
-public record Material : ChildOfRootProperty {
+public class Material : ChildOfRootProperty {
 	/// <summary>
 	///     A set of parameter values that are used to define the metallic-roughness material model from Physically Based
 	///     Rendering (PBR) methodology. When undefined, all the default values of `pbrMetallicRoughness` <b>MUST</b> apply.

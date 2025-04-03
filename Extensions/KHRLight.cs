@@ -1,6 +1,6 @@
 namespace GLTF.Scaffold.Extensions;
 
-public record KHRLight : ChildOfRootProperty {
+public class KHRLight : ChildOfRootProperty {
 	public const string EXT_NAME = "KHR_lights_punctual";
 	public List<double>? Color { get; set; }
 	public double? Intensity { get; set; }

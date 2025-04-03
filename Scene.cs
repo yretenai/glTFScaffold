@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>The root nodes of a scene.</summary>
-public record Scene : ChildOfRootProperty, INodeCreator {
+public class Scene : ChildOfRootProperty, INodeCreator {
 	/// <summary>The indices of each root node.</summary>
 	[JsonPropertyName("nodes")]
 	public List<int> Nodes { get; set; } = [];

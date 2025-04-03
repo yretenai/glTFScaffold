@@ -6,7 +6,7 @@ namespace GLTF.Scaffold;
 ///     A camera's projection. A node <b>MAY</b> reference a camera to apply a transform to place the camera in the
 ///     scene.
 /// </summary>
-public record Camera : ChildOfRootProperty {
+public class Camera : ChildOfRootProperty {
 	/// <summary>
 	///     An orthographic camera containing properties to create an orthographic projection matrix. This property
 	///     <b>MUST NOT</b> be defined when `perspective` is defined.

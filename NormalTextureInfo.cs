@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace GLTF.Scaffold;
 
-public record NormalTextureInfo : TextureInfo {
+public class NormalTextureInfo : TextureInfo {
 	/// <summary>
 	///     The scalar parameter applied to each normal vector of the texture. This value scales the normal vector in X
 	///     and Y directions using the formula:

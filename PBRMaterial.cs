@@ -6,7 +6,7 @@ namespace GLTF.Scaffold;
 ///     A set of parameter values that are used to define the metallic-roughness material model from Physically-Based
 ///     Rendering (PBR) methodology.
 /// </summary>
-public record PBRMaterial : Property {
+public class PBRMaterial : Property {
 	/// <summary>
 	///     The factors for the base color of the material. This value defines linear multipliers for the sampled texels
 	///     of the base color texture.

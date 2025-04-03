@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 namespace GLTF.Scaffold;
 
 /// <summary>A perspective camera containing properties to create a perspective projection matrix.</summary>
-public record PerspectiveCamera : Property {
+public class PerspectiveCamera : Property {
 	/// <summary>
 	///     The floating-point aspect ratio of the field of view. When undefined, the aspect ratio of the rendering
 	///     viewport <b>MUST</b> be used.
