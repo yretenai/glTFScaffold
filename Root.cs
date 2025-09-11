@@ -111,7 +111,13 @@ public class Root : Property {
 			array[i].AsSpan().CopyTo(tmp[(i * size)..]);
 		}
 
-		return CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(tmp), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, count ?? array.Length, 0, type, componentType);
+		stride ??= Unsafe.SizeOf<T>();
+
+		if (stride == -1) {
+			stride = null;
+		}
+
+		return CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(tmp), buffer, stride, target).Id, count ?? array.Length, 0, type, componentType);
 	}
 
 	public (Accessor Accessor, int Id) CreateAccessor(int bufferView, int count, int offset, AccessorType type, AccessorComponentType componentType) {
