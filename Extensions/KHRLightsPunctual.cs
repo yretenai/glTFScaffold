@@ -1,8 +1,7 @@
 namespace GLTF.Scaffold.Extensions;
 
 public class KHRLightsPunctual : Property, IExtension {
-	public const string EXT_NAME = "KHR_lights_punctual";
-	public static string ExtensionName => EXT_NAME;
+	public static string ExtensionName => "KHR_lights_punctual";
 
 	public List<KHRLight>? Lights { get; set; }
 	public int? Light { get; set; }
