@@ -101,6 +101,16 @@ public class Root : Property {
 			PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 		};
 
+	public void AddExtension<T>() where T : IExtension {
+		ExtensionsUsed ??= [];
+		ExtensionsUsed.Add(T.ExtensionName);
+	}
+
+	public void AddRequiredExtension<T>() where T : IExtension {
+		ExtensionsRequired ??= [];
+		ExtensionsRequired.Add(T.ExtensionName);
+		AddExtension<T>();
+	}
 
 	public (Mesh Mesh, int Id) CreateMesh(string name) {
 		Meshes ??= [];
