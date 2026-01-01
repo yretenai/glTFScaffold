@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -62,7 +63,7 @@ public class Root : Property {
 
 	/// <summary>The index of the default scene. This property <b>MUST NOT</b> be defined, when `scenes` is undefined.</summary>
 	[JsonPropertyName("scene")]
-	public int Scene { get; set; } = 0;
+	public int Scene { get; set; }
 
 	/// <summary>An array of scenes.</summary>
 	[JsonPropertyName("scenes")]
@@ -260,6 +261,52 @@ public class Root : Property {
 		};
 		Animations.Add(animation);
 		return (animation, id);
+	}
+
+	public static Root FromGLB(Stream buffer, out int glbStart) {
+		Span<int> header = stackalloc int[3];
+		Span<int> atom = stackalloc int[2];
+		glbStart = -1;
+
+		buffer.ReadExactly(MemoryMarshal.AsBytes(header));
+
+		if (header is not [0x46546C67, 2, _]) {
+			throw new InvalidDataException();
+		}
+
+		buffer.ReadExactly(MemoryMarshal.AsBytes(atom));
+		if (atom[0] != 0x4E4F534A) {
+			throw new InvalidDataException();
+		}
+
+		var rented = ArrayPool<byte>.Shared.Rent(atom[1]);
+		var rentSpan = rented.AsSpan(0, atom[1]);
+
+		try {
+			buffer.ReadExactly(rentSpan);
+		} catch {
+			ArrayPool<byte>.Shared.Return(rented);
+			throw;
+		}
+
+		var gltf = JsonSerializer.Deserialize<Root>(Encoding.UTF8.GetString(rentSpan), GLBJsonOptions) ?? throw new InvalidDataException();
+
+		if (header[2] - buffer.Position < 8) {
+			return gltf;
+		}
+
+		buffer.ReadExactly(MemoryMarshal.AsBytes(atom));
+	#pragma warning disable CA1508
+		if (atom[0] != 0x4E4942) {
+			throw new InvalidDataException();
+		}
+
+		if (atom[1] >= 4) {
+			glbStart = checked((int) buffer.Position);
+		}
+	#pragma warning restore CA1508
+
+		return gltf;
 	}
 
 	public Stream MakeGLB(Stream buffer) {
