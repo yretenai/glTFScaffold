@@ -2,8 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace GLTF.Scaffold.Extensions;
 
-public class CHRONOVOREMaterialAttributes : Property {
-	public const string EXT_NAME = "CHRONOVORE_material_attributes";
+public class NEPTUWUNIUMMaterialAttributes : Property {
+	public const string EXT_NAME = "NEPTUWUNIUM_material_attributes";
 
 	[JsonPropertyName("textures")]
 	public Dictionary<string, TextureInfo>? Textures { get; set; }

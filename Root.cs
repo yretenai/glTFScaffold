@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace GLTF.Scaffold;
@@ -77,6 +78,17 @@ public class Root : Property {
 	/// <summary>An array of textures.</summary>
 	[JsonPropertyName("textures")]
 	public List<Texture>? Textures { get; set; }
+
+	public static JsonSerializerOptions GltfJsonOptions =>
+		new() {
+			WriteIndented = true,
+			DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+			IgnoreReadOnlyFields = true,
+			IgnoreReadOnlyProperties = true,
+			NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
+			PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+		};
+
 
 	public (Mesh Mesh, int Id) CreateMesh(string name) {
 		Meshes ??= [];

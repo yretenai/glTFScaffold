@@ -15,4 +15,25 @@ public class Property {
 	/// </summary>
 	[JsonPropertyName("extras")]
 	public Dictionary<string, JsonValue>? Extras { get; set; }
+
+	public static JsonNodeOptions? GltfNodeOptions => new() {
+		PropertyNameCaseInsensitive = true,
+	};
+
+	public T? GetExtension<T>() where T : IExtension {
+		if (Extensions == null) {
+			return default;
+		}
+
+		return !Extensions.TryGetValue(T.ExtensionName, out var extension) ? default : extension.GetValue<T>();
+	}
+
+	public void AddExtension<T>(T extension) where T : IExtension {
+		Extensions ??= [];
+		Extensions[T.ExtensionName] = JsonValue.Create(extension, GltfNodeOptions)!;
+	}
+}
+
+public interface IExtension {
+	static abstract string ExtensionName { get; }
 }
