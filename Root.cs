@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -82,6 +83,16 @@ public class Root : Property {
 	public static JsonSerializerOptions GltfJsonOptions =>
 		new() {
 			WriteIndented = true,
+			DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+			IgnoreReadOnlyFields = true,
+			IgnoreReadOnlyProperties = true,
+			NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
+			PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+		};
+
+	public static JsonSerializerOptions GLBJsonOptions =>
+		new() {
+			WriteIndented = false,
 			DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
 			IgnoreReadOnlyFields = true,
 			IgnoreReadOnlyProperties = true,
@@ -249,5 +260,49 @@ public class Root : Property {
 		};
 		Animations.Add(animation);
 		return (animation, id);
+	}
+
+	public Stream MakeGLB(Stream buffer) {
+		var memory = new MemoryStream();
+		MakeGLB(buffer, memory);
+		return memory;
+	}
+
+	public void MakeGLB(Stream buffer, Stream target) {
+		Span<int> header = stackalloc int[3];
+		Span<int> atom = stackalloc int[2];
+		Span<byte> align = stackalloc byte[4];
+
+		header[0] = 0x46546C67; // glTF
+		header[1] = 2;
+		header[3] = 0;
+		target.Write(MemoryMarshal.AsBytes(header));
+
+		var jsonText = JsonSerializer.Serialize(this, GLBJsonOptions);
+		var jsonLength = Encoding.UTF8.GetByteCount(jsonText);
+		if ((jsonLength & 3) != 0) {
+			jsonText += new string(' ', (jsonLength + 3) & 0x7FFFFFFC);
+		}
+
+		atom[0] = jsonLength;
+		atom[1] = 0x4E4F534A; // JSON
+		target.Write(MemoryMarshal.AsBytes(atom));
+		target.Write(Encoding.UTF8.GetBytes(jsonText));
+
+		var bufferLength = checked((int) buffer.Length);
+		var extra = 0;
+		if ((bufferLength & 3) != 0) {
+			extra = (jsonLength + 3) & 0x7FFFFFFC;
+		}
+
+		atom[0] = bufferLength + extra;
+		atom[1] = 0x4E4942; // BIN
+		target.Write(MemoryMarshal.AsBytes(atom));
+		buffer.Position = 0;
+		buffer.CopyTo(target);
+
+		if (extra > 0) {
+			target.Write(align[..extra]);
+		}
 	}
 }
