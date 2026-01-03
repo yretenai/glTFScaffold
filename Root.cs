@@ -129,7 +129,8 @@ public class Root : Property {
 		AccessorType type,
 		AccessorComponentType componentType,
 		int? stride = null,
-		int? count = null) where T : struct => CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(array), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, count ?? array.Length, 0, type, componentType);
+		int? count = null,
+		bool? normalized = null) where T : struct => CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(array), buffer, stride ?? Unsafe.SizeOf<T>(), target).Id, count ?? array.Length, 0, type, componentType, normalized);
 
 	public (Accessor Accessor, int Id) CreateAccessor<T>(
 		T[][] array,
@@ -139,7 +140,8 @@ public class Root : Property {
 		AccessorType type,
 		AccessorComponentType componentType,
 		int? stride = null,
-		int? count = null) where T : struct {
+		int? count = null,
+		bool? normalized = null) where T : struct {
 		var tmp = new Span<T>(new T[size * array.Length]);
 		for (var i = 0; i < array.Length; ++i) {
 			array[i].AsSpan().CopyTo(tmp[(i * size)..]);
@@ -151,10 +153,10 @@ public class Root : Property {
 			stride = null;
 		}
 
-		return CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(tmp), buffer, stride, target).Id, count ?? array.Length, 0, type, componentType);
+		return CreateAccessor(CreateBufferView(MemoryMarshal.AsBytes(tmp), buffer, stride, target).Id, count ?? array.Length, 0, type, componentType, normalized);
 	}
 
-	public (Accessor Accessor, int Id) CreateAccessor(int bufferView, int count, int offset, AccessorType type, AccessorComponentType componentType) {
+	public (Accessor Accessor, int Id) CreateAccessor(int bufferView, int count, int offset, AccessorType type, AccessorComponentType componentType, bool? normalized) {
 		Accessors ??= [];
 		var id = Accessors.Count;
 		var accessor = new Accessor {
@@ -164,6 +166,7 @@ public class Root : Property {
 			Count = count,
 			Type = type,
 			ComponentType = componentType,
+			Normalized = normalized,
 		};
 		Accessors.Add(accessor);
 		return (accessor, id);
@@ -330,15 +333,25 @@ public class Root : Property {
 		Span<int> atom = stackalloc int[2];
 		Span<byte> align = stackalloc byte[4];
 
+		Buffers ??= [];
+		if (Buffers.Count == 0) {
+			Buffers.Add(new Buffer {
+				ByteLength = buffer.Length,
+				Name = null,
+			});
+		}
+
 		header[0] = 0x46546C67; // glTF
 		header[1] = 2;
-		header[3] = 0;
+		header[2] = 0;
 		target.Write(MemoryMarshal.AsBytes(header));
 
 		var jsonText = JsonSerializer.Serialize(this, GLBJsonOptions);
 		var jsonLength = Encoding.UTF8.GetByteCount(jsonText);
 		if ((jsonLength & 3) != 0) {
-			jsonText += new string(' ', (jsonLength + 3) & 0x7FFFFFFC);
+			var old = jsonLength;
+			jsonLength = (jsonLength + 3) & 0x7FFFFFFC;
+			jsonText += new string(' ', jsonLength - old);
 		}
 
 		atom[0] = jsonLength;
@@ -349,7 +362,7 @@ public class Root : Property {
 		var bufferLength = checked((int) buffer.Length);
 		var extra = 0;
 		if ((bufferLength & 3) != 0) {
-			extra = (jsonLength + 3) & 0x7FFFFFFC;
+			extra = (bufferLength + 3) & 0x7FFFFFFC;
 		}
 
 		atom[0] = bufferLength + extra;
@@ -361,5 +374,9 @@ public class Root : Property {
 		if (extra > 0) {
 			target.Write(align[..extra]);
 		}
+
+		target.Position = 0;
+		header[2] = (int) target.Length;
+		target.Write(MemoryMarshal.AsBytes(header));
 	}
 }
