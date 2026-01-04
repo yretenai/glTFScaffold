@@ -9,5 +9,5 @@ public class NEPTUWUNIUMBonePalette : Property, IExtension {
 	/// Index to palette accessor
 	/// </summary>
 	[JsonPropertyName("palette")]
-	public int Palette { get; set; }
+	public required int Palette { get; set; }
 }
