@@ -359,13 +359,11 @@ public class Root : Property {
 		target.Write(MemoryMarshal.AsBytes(atom));
 		target.Write(Encoding.UTF8.GetBytes(jsonText));
 
-		var bufferLength = checked((int) buffer.Length);
-		var extra = 0;
-		if ((bufferLength & 3) != 0) {
-			extra = (bufferLength + 3) & 0x7FFFFFFC;
-		}
+		var rawBufferLength = checked((int) buffer.Length);
+		var bufferLength = unchecked(rawBufferLength + (4 - 1)) & ~(4 - 1);
+		var extra = bufferLength - rawBufferLength;
 
-		atom[0] = bufferLength + extra;
+		atom[0] = bufferLength;
 		atom[1] = 0x4E4942; // BIN
 		target.Write(MemoryMarshal.AsBytes(atom));
 		buffer.Position = 0;
