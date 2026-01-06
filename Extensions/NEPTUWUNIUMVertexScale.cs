@@ -12,5 +12,8 @@ public class NEPTUWUNIUMVertexScale : Property, IExtension {
 	public List<double>? Scale { get; set; }
 
 	[JsonPropertyName("component")]
-	public int? scaleFromComponent { get; set; } = null;
+	public int? Component { get; set; } = null;
+
+	[JsonPropertyName("componentScale")]
+	public double? ComponentScale { get; set; } = null;
 }
