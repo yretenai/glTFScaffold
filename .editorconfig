@@ -1,4 +1,8 @@
-﻿root = true
+﻿# SPDX-FileCopyrightText: 2023-2026 Neptuwunium
+#
+# SPDX-License-Identifier: 0BSD
+
+root = true
 
 [*]
 charset = utf-8

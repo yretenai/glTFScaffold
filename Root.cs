@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023-2026 Neptuwunium
+//
+// SPDX-License-Identifier: 0BSD
+
 using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
